@@ -26,7 +26,7 @@ import sys
 
 from face_cli import __version__
 from face_cli.cli._errors import EXIT_USER_ERROR, CliError
-from face_cli.cli._output import emit_error
+from face_cli.cli._output import emit_error, emit_result
 
 _ISSUES_URL = "https://github.com/agentculture/face-cli/issues"
 
@@ -72,12 +72,21 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = _CliArgumentParser(
         prog="face-cli",
         description="face-cli — a browser-rendered face that reads 3D on a 2D screen "
-        "and looks in any direction.",
+        "and looks in any direction. Scaffold: no renderer or gaze verbs yet; the "
+        "verbs below are the introspection surface.",
     )
     parser.add_argument(
         "--version",
         action="version",
         version=f"%(prog)s {__version__}",
+    )
+    # Accepted before the verb too (`face --json whoami`), not just after it.
+    # argparse gives each subparser its own `json` default, so a leading flag is
+    # clobbered on the way down; main() re-asserts it from the raw-argv scan.
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Emit structured JSON. Accepted before or after the verb.",
     )
     # parser_class propagates to every subparser so their .error() routes
     # through _CliArgumentParser too.
@@ -126,7 +135,21 @@ def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
+    # Position must not change meaning: each subparser re-declares `--json` with
+    # its own `False` default, which overwrites a leading `--json` during
+    # sub-parsing. Re-assert from the raw-argv scan so `face --json whoami` and
+    # `face whoami --json` behave identically.
+    if _CliArgumentParser._json_hint:
+        args.json = True
+
     if args.command is None:
+        # No verb: the JSON analogue of printing help is the machine-readable
+        # command map, which `learn` already owns.
+        if getattr(args, "json", False):
+            from face_cli.cli._commands.learn import as_json_payload
+
+            emit_result(as_json_payload(), json_mode=True)
+            return 0
         parser.print_help()
         return 0
 

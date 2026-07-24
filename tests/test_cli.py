@@ -24,6 +24,30 @@ def test_no_args_prints_help(capsys: pytest.CaptureFixture[str]) -> None:
     assert "usage: face-cli" in capsys.readouterr().out
 
 
+def test_root_json_without_verb_emits_command_map(capsys: pytest.CaptureFixture[str]) -> None:
+    """`face --json` (no verb) is the machine-readable analogue of printing help."""
+    rc = main(["--json"])
+    assert rc == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["tool"] == "face-cli"
+    assert payload["commands"]
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [["--json", "whoami"], ["whoami", "--json"]],
+    ids=["flag-before-verb", "flag-after-verb"],
+)
+def test_json_flag_position_does_not_change_meaning(
+    argv: list[str], capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A leading `--json` must survive sub-parsing (each subparser re-defaults it)."""
+    rc = main(argv)
+    assert rc == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["nick"] == "face-cli"
+
+
 def test_unknown_command_errors(capsys: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as exc:
         main(["bogus"])

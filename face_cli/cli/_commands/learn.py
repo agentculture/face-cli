@@ -53,7 +53,8 @@ More detail
 """
 
 
-def _as_json_payload() -> dict[str, object]:
+def as_json_payload() -> dict[str, object]:
+    """Machine-readable command map. Shared with the root `--json` (no verb) path."""
     return {
         "tool": "face-cli",
         "version": __version__,
@@ -81,7 +82,7 @@ def _as_json_payload() -> dict[str, object]:
 
 def cmd_learn(args: argparse.Namespace) -> int:
     if getattr(args, "json", False):
-        emit_result(_as_json_payload(), json_mode=True)
+        emit_result(as_json_payload(), json_mode=True)
     else:
         emit_result(_TEXT, json_mode=False)
     return 0

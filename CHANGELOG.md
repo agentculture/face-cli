@@ -7,6 +7,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.7.1] - 2026-07-24
 
+### Added
+
+- **`--json` is accepted before the verb, not only after it** — `face --json
+  whoami` used to fail with `unrecognized arguments: --json` while `face whoami
+  --json` worked. Flag-before-verb is a common idiom, and an agent-first CLI
+  that rejects it is a trap. The root parser now declares `--json`, and
+  `main()` re-asserts it after `parse_args` from the existing raw-argv scan:
+  each subparser re-declares `--json` with its own `False` default, which
+  silently overwrites a leading flag during sub-parsing. Both orders now
+  produce identical output, pinned by a parametrized test.
+- **`face --json` with no verb emits the machine-readable command map** rather
+  than an error — the JSON analogue of printing help. It reuses `learn`'s
+  payload builder (promoted from `_as_json_payload` to `as_json_payload`), so
+  there is one command map, not two.
+
 ### Changed
 
 - **The CLI's own introspection text now describes this agent** — `face --help`,
@@ -31,10 +46,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   open in `CLAUDE.md`; the GitHub repo description, set at provisioning, still
   carries the old wording and should follow whichever way the decision lands.
 
-Both items were raised by Qodo's review of
+- **Public-facing descriptions no longer read as if the renderer exists** —
+  `pyproject.toml`'s description (what PyPI renders, and `publish.yml` pushes a
+  release on every merge to `main`) and the root `argparse` description both
+  described a working browser-rendered face in the present tense, while
+  `learn` / `explain` / `overview` said "scaffold, no renderer". Both now carry
+  the same qualifier. This also makes 0.7.1's own claim about `face --help`
+  true — it stated the honest status was there before the root description
+  actually carried it.
+
+The first two items were raised by Qodo's review of
 [#2](https://github.com/agentculture/face-cli/pull/2) (review comments
 `3646920415`, `3646920422`), which merged before the fixes landed — hence a
-follow-up release rather than an amendment.
+follow-up release rather than an amendment. The remaining items came from
+Qodo's review of [#3](https://github.com/agentculture/face-cli/pull/3) (review
+comments `3647009663`, `3647009668`).
 
 ## [0.7.0] - 2026-07-24
 

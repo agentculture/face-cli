@@ -1,7 +1,7 @@
 [project]
 name = "face-cli"
 version = "0.7.1"
-description = "A simulated face rendered in the browser that appears three-dimensional on a flat 2D screen and can look in any direction — an agent-drivable gaze surface for robots, kiosks, and screens."
+description = "Scaffold for a browser-rendered face that reads three-dimensional on a flat 2D screen and looks in any direction — an agent-drivable gaze surface for robots, kiosks, and screens. The renderer is not implemented yet; the CLI ships introspection verbs only."
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.12"
