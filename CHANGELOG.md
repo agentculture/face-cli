@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/). This project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2026-07-24
+
+### Changed
+
+- **The CLI's own introspection text now describes this agent** — `face --help`,
+  `face learn`, `face explain`, and `face overview` still called the repo "a
+  clonable template for AgentCulture mesh agents" and gave clone/rename
+  instructions, contradicting the docs 0.7.0 rewrote. Because `learn` and
+  `explain` are explicitly the machine-readable teaching surface, that mismatch
+  misinformed every agent consuming them, not just human readers. All four now
+  state the domain (the expressive output side of a face; recognition belongs to
+  the sibling) and the honest status (scaffold — no renderer, no gaze primitive,
+  no render verbs yet), and `overview` gained a `Status` section carrying the
+  same. The leftover clone/rename framing is also gone from the `whoami` and
+  `overview` module docstrings. The `face` / `face-cli` naming split is
+  untouched: the console script stays `face` and every help / `learn` /
+  `explain` string stays `face-cli`, matching argparse's `prog`.
+- **Package metadata no longer advertises capability that was never requested**
+  — `pyproject.toml`'s description promised a "gaze **and expression** surface"
+  while `README.md` says "gaze surface" and the build brief records that
+  expression was *not* asked for. Published metadata is public-facing (it is
+  what PyPI shows), so the conflicting claim was narrowed to match the README.
+  This removes the claim rather than settling the scope question, which stays
+  open in `CLAUDE.md`; the GitHub repo description, set at provisioning, still
+  carries the old wording and should follow whichever way the decision lands.
+
+Both items were raised by Qodo's review of
+[#2](https://github.com/agentculture/face-cli/pull/2) (review comments
+`3646920415`, `3646920422`), which merged before the fixes landed — hence a
+follow-up release rather than an amendment.
+
 ## [0.7.0] - 2026-07-24
 
 ### Added

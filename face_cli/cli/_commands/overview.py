@@ -1,7 +1,7 @@
 """``face-cli overview`` — read-only descriptive snapshot of the agent.
 
 Describes the agent to an agent reader: identity (from culture.yaml), the verb
-surface, and the sibling-pattern artifacts this template carries. The shared
+surface, and the sibling-pattern artifacts this repo carries. The shared
 section/render helpers here are reused by the ``cli`` noun's ``overview`` (see
 :mod:`face_cli.cli._commands.cli`).
 
@@ -22,6 +22,13 @@ _ARTIFACTS = [
     ".claude/skills/ — the canonical guildmaster skill kit (cite-don't-import)",
     "docs/skill-sources.md — skill provenance ledger",
     "pyproject.toml + .github/workflows/ — buildable, deployable package baseline",
+]
+
+_STATUS = [
+    "domain: the expressive output side of a face — browser-rendered, reads 3D "
+    "on a flat 2D screen, gaze pointable in any direction",
+    "scaffold: no renderer, no gaze primitive, no render verbs on disk yet",
+    "build brief: https://github.com/agentculture/face-cli/issues/1",
 ]
 
 _VERBS = [
@@ -46,6 +53,7 @@ def agent_sections() -> list[dict[str, object]]:
                 f"model: {ident['model']}",
             ],
         },
+        {"title": "Status", "items": list(_STATUS)},
         {"title": "Verbs", "items": list(_VERBS)},
         {"title": "Sibling-pattern artifacts", "items": list(_ARTIFACTS)},
     ]

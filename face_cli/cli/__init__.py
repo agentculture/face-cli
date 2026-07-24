@@ -71,7 +71,8 @@ def _build_parser() -> argparse.ArgumentParser:
 
     parser = _CliArgumentParser(
         prog="face-cli",
-        description="face-cli — a clonable template for AgentCulture mesh agents.",
+        description="face-cli — a browser-rendered face that reads 3D on a 2D screen "
+        "and looks in any direction.",
     )
     parser.add_argument(
         "--version",
