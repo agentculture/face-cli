@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/). This project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-07-24
+
+### Added
+
+- **`CLAUDE.md` initialized from the seed** (`/init`) — replaces the bootstrap placeholder with a real runtime prompt: what the repo is *today* (a scaffold, no renderer on disk), the deliberate `face` command / `face_cli` import / `face-cli` dist split and why it must not be "fixed", the four CLI contracts the rubric gate enforces (registration via `register(sub)`, the `CliError` + `_json_hint` error path, the strict stdout/stderr split, the tuple-keyed `explain` catalog), the five places a new verb must touch, and the decided-vs-open state of the face work carried over from build brief agentculture/face-cli#1.
+- **Face-recognition acceptance constraint** recorded in `CLAUDE.md` and `README.md` — the rendered face must survive the same OpenCV pipeline sibling `face-recognition-cli` extracts from `reachy-mini-cli` (`reachy/vision/face.py`): YuNet detection above the default `0.6` score threshold, and a stable SFace 128-dim embedding across the gaze range. This settles the brief's stylised-vs-realistic question at "realistic enough that a detector fires" rather than photorealism, and replaces the untestable "it looks 3D" with an assertion CI can make — a face that stops being detectable at extreme yaw has failed the illusion in a way a screenshot diff would miss.
+- **Dependency guidance for when the renderer lands** — the empty runtime-dependency set is a property of the scaffold, not a law: put a server/screenshot stack behind an extra, import it lazily inside functions, and surface absence as a clean `EXIT_ENV_ERROR` `CliError`, mirroring `reachy-mini-cli`'s `[vision]` pattern.
+- **Template conventions restored** into `CLAUDE.md` after the scaffold flattened them — version-bump-every-PR, the `cicd` PR lane, the `ask-colleague` reflex, verbatim-vendored skills, the `../.worktrees.face-cli/<name>/` worktree convention, and in-repo public memory discipline (`/recall` before, `/remember` after).
+
+### Changed
+
+- **`README.md` rewritten for this agent** — it described the `culture-agent-template` clone procedure ("Make it your own", the ~100-place rename sweep) rather than face-cli. Now leads with the scaffold status, the two halves of the problem (depth illusion + pointable gaze), the decided browser render target with its three reasons, the face-recognition bar, and the lane boundary against `face-recognition-cli`.
+
+### Fixed
+
+- **Wrong console command throughout `README.md`** — the quickstart said `uv run face-cli whoami` / `uv run face-cli learn`, which fail with `Failed to spawn: face-cli`. The installed entry point is `face` (`[project.scripts] face = "face_cli.cli:main"`); only argparse's `prog` is `face-cli`.
+- **Stale identity claim in the seed** — it stated `culture.yaml` declares `backend: claude`, while the checked-in value is `colleague` (resident prompt `AGENTS.colleague.md`, which is what `doctor` and `steward doctor` actually verify).
+
 ## [0.6.1] - 2026-07-20
 
 ### Added
