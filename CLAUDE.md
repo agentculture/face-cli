@@ -205,9 +205,12 @@ CHANGELOG entry); do not let them get settled by accident in a commit:
   to compute it with no human in the loop.
 - **Whether expression is in scope at all.** The operator asked for direction.
   Expression is the obvious neighbour and was *not* requested — decide
-  explicitly rather than drifting into it. (Note the repo description and
-  `pyproject.toml` already say "gaze and expression surface", which is drift to
-  resolve one way or the other.)
+  explicitly rather than drifting into it. Published metadata no longer
+  pre-answers it: `pyproject.toml` used to advertise a "gaze **and expression**
+  surface" while nothing of the sort exists, so its description was narrowed to
+  match the README. That removes the claim, it does not settle the question —
+  the GitHub repo description (set at provisioning) still carries the old
+  wording and should follow whichever way the decision lands.
 - **What `--json` returns for a verb whose real output is pixels.** A
   screenshot path is one honest answer; the resolved gaze state is another.
 - **Who runs the render loop** — browser-side animation with the CLI setting

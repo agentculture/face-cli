@@ -12,14 +12,19 @@ from face_cli import __version__
 from face_cli.cli._output import emit_result
 
 _TEXT = """\
-face-cli — a clonable template for AgentCulture mesh agents.
+face-cli — a browser-rendered face that reads 3D on a 2D screen and looks
+anywhere.
 
 Purpose
 -------
-Scaffold for a new Culture mesh agent: an agent-first CLI (cited from the teken
-`python-cli` reference), an identity (culture.yaml + CLAUDE.md), the canonical
-guildmaster skill kit under .claude/skills/, and a deploy/CI baseline. Clone it,
-rename the package, and edit culture.yaml to mint a new agent.
+The expressive *output* side of a face: a simulated face rendered in a browser
+that appears three-dimensional on a flat screen and can point its gaze in any
+direction, drivable by an agent. Its sibling face-recognition-cli is the
+perceptual *input* side; this tool does no recognition.
+
+Status: scaffold. No renderer, no gaze primitive, and no render verbs exist
+yet — the commands below are the introspection surface only. See the build
+brief at https://github.com/agentculture/face-cli/issues/1.
 
 Commands
 --------
@@ -48,11 +53,15 @@ More detail
 """
 
 
-def _as_json_payload() -> dict[str, object]:
+def as_json_payload() -> dict[str, object]:
+    """Machine-readable command map. Shared with the root `--json` (no verb) path."""
     return {
         "tool": "face-cli",
         "version": __version__,
-        "purpose": "Clonable scaffold for a new AgentCulture mesh agent.",
+        "purpose": (
+            "Browser-rendered face that reads 3D on a 2D screen and looks in any "
+            "direction. Scaffold: no render verbs yet."
+        ),
         "commands": [
             {"path": ["whoami"], "summary": "Identity probe from culture.yaml."},
             {"path": ["learn"], "summary": "Self-teaching prompt."},
@@ -73,7 +82,7 @@ def _as_json_payload() -> dict[str, object]:
 
 def cmd_learn(args: argparse.Namespace) -> int:
     if getattr(args, "json", False):
-        emit_result(_as_json_payload(), json_mode=True)
+        emit_result(as_json_payload(), json_mode=True)
     else:
         emit_result(_TEXT, json_mode=False)
     return 0

@@ -12,11 +12,14 @@ from __future__ import annotations
 _ROOT = """\
 # face-cli
 
-A clonable template for AgentCulture mesh agents. It carries an agent-first CLI
-(cited from the teken `python-cli` reference), a mesh identity (`culture.yaml` +
-`CLAUDE.md`), the canonical guildmaster skill kit under `.claude/skills/`, and a
-buildable/deployable package baseline. Clone it, rename the package, edit
-`culture.yaml`, and you have a new agent.
+The expressive *output* side of a face: a simulated face rendered in a browser
+that appears three-dimensional on a flat 2D screen and can look in any
+direction, drivable by an agent. The sibling `face-recognition-cli` is the
+perceptual *input* side — this tool does no recognition.
+
+**Status: scaffold.** There is no renderer, no gaze primitive, and no render
+verbs on disk yet; what follows is the introspection surface. The build brief
+is <https://github.com/agentculture/face-cli/issues/1>.
 
 ## Verbs
 
@@ -81,7 +84,7 @@ _OVERVIEW = """\
 # face-cli overview
 
 Read-only descriptive snapshot of the agent: identity (from `culture.yaml`), the
-verb surface, and the sibling-pattern artifacts the template carries. Accepts an
+verb surface, and the sibling-pattern artifacts this repo carries. Accepts an
 ignored `target` so a stray path never hard-fails.
 
 ## Usage
