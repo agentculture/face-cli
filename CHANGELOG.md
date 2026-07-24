@@ -17,6 +17,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - **`README.md` rewritten for this agent** — it described the `culture-agent-template` clone procedure ("Make it your own", the ~100-place rename sweep) rather than face-cli. Now leads with the scaffold status, the two halves of the problem (depth illusion + pointable gaze), the decided browser render target with its three reasons, the face-recognition bar, and the lane boundary against `face-recognition-cli`.
+- **The CLI's own introspection text now describes this agent** (PR #2 review) —
+  `face --help`, `face learn`, `face explain`, and `face overview` still called
+  the repo "a clonable template for AgentCulture mesh agents" and gave
+  clone/rename instructions, contradicting the rewritten docs. Since `learn` and
+  `explain` are explicitly the machine-readable teaching surface, that mismatch
+  misinforms every agent that consumes them, not just human readers. All four
+  now state the domain (the expressive output side of a face; recognition
+  belongs to the sibling) and the honest status (scaffold — no renderer, no
+  gaze primitive, no render verbs yet), and `overview` gained a `Status`
+  section carrying the same. The `face` / `face-cli` split is untouched: the
+  console script stays `face` and every help / `learn` / `explain` string stays
+  `face-cli`, matching argparse's `prog`.
+- **Package metadata no longer advertises capability that was never requested**
+  (PR #2 review) — `pyproject.toml`'s description promised a "gaze **and
+  expression** surface" while the README now says "gaze surface" and the build
+  brief records that expression was *not* asked for. Published metadata is
+  public-facing, so the conflicting claim was narrowed to match the README.
+  This removes the claim rather than settling the scope question, which stays
+  open in `CLAUDE.md`; the GitHub repo description still carries the old
+  wording and should follow whichever way the decision lands.
 
 ### Fixed
 
